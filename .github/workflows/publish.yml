@@ -3,46 +3,32 @@ name: Publish Python Package
 on:
   workflow_dispatch:  # 手动触发工作流
 
-permissions:
-  contents: read  # 读取代码
-  id-token: write  # 请求 OIDC token
-
 jobs:
-  release-build:
+  build:
+    name: Build distribution 📦
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-
-      - name: build release distributions
-        run: |
-          pip3 install pdm
-          pdm install
-          pdm build
-
-      - name: upload windows dists
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
-  pypi-publish:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+    - name: Install pypa/build
+      run: >-
+        pip install
+        pip install pdm
+        pdm install
+    - name: Build a binary wheel and a source tarball
+      run: pdm build
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+  publish-to-pypi:
     runs-on: ubuntu-latest
-    needs:
-      - release-build
+    environment:
+      name: pypi
+      url: https://pypi.org/p/aimock # Replace <package-name> with your PyPI project name
     permissions:
-      id-token: write
-
-    steps:
-      - name: Retrieve release distributions
-        uses: actions/download-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
-      - name: Publish release distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
