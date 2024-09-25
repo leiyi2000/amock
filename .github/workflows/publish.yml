@@ -26,7 +26,7 @@ jobs:
         run: pdm install
       
       - name: build
-        run: pdm install
+        run: pdm build
 
       - name: mint API token
         id: mint-token
