@@ -1,0 +1,29 @@
+[project]
+name = "mock"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "ylei", email = "2457738122@qq.com"},
+]
+dependencies = [
+    "pydantic>=2.9.2",
+    "openai>=1.47.0",
+    "jinja2>=3.1.4",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
+
+
+[tool.pdm.scripts]
+# 开发环境
+dev.env_file.override = ".env"
+dev.cmd = "pdm run "
