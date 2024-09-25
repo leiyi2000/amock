@@ -1,7 +1,7 @@
 import os
 import logging
 
-from mock import MockModel, Field
+from aimock import MockModel, Field
 
 
 # 创建打印日志，日志等级debug
