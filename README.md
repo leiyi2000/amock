@@ -9,6 +9,11 @@
 
 借助AI自动生成测试数据
 
+## 安装
+```shell
+pip3 install amock
+```
+
 ## 快速开始
 ```python
 from mock import MockModel, Field
